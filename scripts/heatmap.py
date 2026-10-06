@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
-Draw data/contributions.json as GitHub's own year grid, dark theme, and make
-it play: the squares pop in as a diagonal wave from the oldest week to today,
+Draw data/contributions.json as GitHub's own year grid and make it play: the squares pop in as a diagonal wave from the oldest week to today,
 and every active day flashes bright as it lands.
 
 GitHub shows README SVGs through <img>, where CSS animation runs and scripts
 do not, so the whole thing is CSS keyframes with a per-cell delay.
+
+Two files, one per GitHub theme: out.svg (dark) and out-light.svg. The README
+shows the one matching the viewer's theme through <picture>.
 
     python scripts/heatmap.py [data.json] [out.svg]
 """
@@ -18,10 +20,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "data", "contributions.json")
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, "contributions.svg")
 
-# GitHub dark: empty, then the four quartiles
-LEVELS = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]
-LABEL = "#7d8590"
-INK = "#e6edf3"
+# GitHub's own palettes: empty, then the four quartiles; and how hard a new
+# active day flashes (a light green at x2.4 would burn out to white)
+THEMES = {
+    "dark": {"levels": ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+             "label": "#7d8590", "ink": "#e6edf3", "flash": 2.4},
+    "light": {"levels": ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
+              "label": "#59636e", "ink": "#1f2328", "flash": 1.3},
+}
 
 CELL, PITCH = 13, 16
 LEFT, TOP = 34, 24             # room for Mon/Wed/Fri and the month row
@@ -54,7 +60,8 @@ def month_labels(cols):
     return [(LEFT + c * PITCH, m) for c, m in out]
 
 
-def render(data):
+def render(data, theme):
+    t = THEMES[theme]
     cols = weeks_of(data["days"])
     w = LEFT + len(cols) * PITCH + 6
     h = TOP + 7 * PITCH + 34
@@ -63,13 +70,13 @@ def render(data):
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
         'font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif">',
         "<style>"
-        f".l{{fill:{LABEL};font-size:13px;font-weight:600}}"
-        f".t{{fill:{INK};font-size:15px;font-weight:700}}"
+        f".l{{fill:{t['label']};font-size:13px;font-weight:600}}"
+        f".t{{fill:{t['ink']};font-size:15px;font-weight:700}}"
         ".s{transform-box:fill-box;transform-origin:center;opacity:0;animation:pop .55s ease-out both}"
         ".a{animation:pop .55s ease-out both,glow .7s ease-out both}"
         "@keyframes pop{0%{opacity:0;transform:scale(.2)}60%{opacity:1;transform:scale(1.12)}"
         "100%{opacity:1;transform:scale(1)}}"
-        "@keyframes glow{0%,45%{filter:brightness(2.4)}100%{filter:brightness(1)}}"
+        f"@keyframes glow{{0%,45%{{filter:brightness({t['flash']})}}100%{{filter:brightness(1)}}}}"
         "@media (prefers-reduced-motion:reduce){.s{opacity:1!important;animation:none!important}}"
         "</style>",
     ]
@@ -86,7 +93,7 @@ def render(data):
             delay = c * COL_DELAY + r * ROW_DELAY
             parts.append(
                 f'<rect class="{cls}" x="{LEFT + c * PITCH}" y="{TOP + r * PITCH}" width="{CELL}" '
-                f'height="{CELL}" rx="2.5" fill="{LEVELS[d["level"]]}" style="animation-delay:{delay:.3f}s">'
+                f'height="{CELL}" rx="2.5" fill="{t["levels"][d["level"]]}" style="animation-delay:{delay:.3f}s">'
                 f'<title>{d["date"]}: {d["count"]}</title></rect>'
             )
 
@@ -98,7 +105,9 @@ def render(data):
 
 if __name__ == "__main__":
     data = json.load(open(SRC, encoding="utf-8"))
-    svg = render(data)
-    with open(OUT, "w", encoding="utf-8") as f:
-        f.write(svg)
-    print(f"wrote {OUT} ({len(svg) // 1024} KB)")
+    base, ext = os.path.splitext(OUT)
+    for theme, path in (("dark", OUT), ("light", f"{base}-light{ext}")):
+        svg = render(data, theme)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(svg)
+        print(f"wrote {path} ({len(svg) // 1024} KB)")

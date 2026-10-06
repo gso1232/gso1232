@@ -5,7 +5,10 @@
 
 <h3><code>mohamed@github ~ $ ./contributions.sh</code></h3>
 
-<img src="./contributions.svg" width="860" alt="Mohamed Samy's GitHub contribution graph, refreshed daily" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="./contributions-light.svg">
+  <img src="./contributions.svg" width="860" alt="Mohamed Samy's GitHub contribution graph, refreshed daily" />
+</picture>
 
 <br>
 <br>

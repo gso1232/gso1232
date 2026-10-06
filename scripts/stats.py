@@ -46,6 +46,10 @@ def span(streak):
     return f"{day(streak['start'])} – {day(streak['end'])}" if streak["length"] else "no streak yet"
 
 
+def days(n):
+    return " day" if n == 1 else " days"
+
+
 def number(v, decimal):
     return f"{v:,.1f}" if decimal else f"{int(round(v)):,}"
 
@@ -125,8 +129,8 @@ def render(d):
     cur, lng, best = d["current_streak"], d["longest_streak"], d["best_day"]
     n = len(d["days"])
     tiles = [
-        ("current streak", cur["length"], " days", span(cur), GREEN),
-        ("longest streak", lng["length"], " days", span(lng), INK),
+        ("current streak", cur["length"], days(cur["length"]), span(cur), GREEN),
+        ("longest streak", lng["length"], days(lng["length"]), span(lng), INK),
         ("contributions", d["total"], "", "in the last year", INK),
         ("active days", d["active_days"], f" / {n}", f"{d['active_days'] / n:.0%} of the year", INK),
         ("best day", best["count"], "", day(best["date"]) if best["count"] else "still to come", INK),

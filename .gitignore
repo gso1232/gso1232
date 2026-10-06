@@ -1,0 +1,4 @@
+# local only: the comparison bench and the source photo
+_compare/
+photo/
+__pycache__/

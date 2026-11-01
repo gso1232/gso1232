@@ -1,6 +1,6 @@
 {
  "login": "gso1232",
- "generated": "2026-10-31T10:21Z",
+ "generated": "2026-11-01T11:14Z",
  "total": 10,
  "active_days": 5,
  "per_active_day": 2.0,
@@ -19,10 +19,6 @@
   "count": 5
  },
  "months": [
-  {
-   "month": "2025-10",
-   "count": 0
-  },
   {
    "month": "2025-11",
    "count": 0
@@ -70,44 +66,13 @@
   {
    "month": "2026-10",
    "count": 8
+  },
+  {
+   "month": "2026-11",
+   "count": 0
   }
  ],
  "days": [
-  {
-   "date": "2025-10-26",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-10-27",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-10-28",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-10-29",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-10-30",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-10-31",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-11-01",
-   "count": 0,
-   "level": 0
-  },
   {
    "date": "2025-11-02",
    "count": 0,
@@ -1925,6 +1890,11 @@
   },
   {
    "date": "2026-10-31",
+   "count": 0,
+   "level": 0
+  },
+  {
+   "date": "2026-11-01",
    "count": 0,
    "level": 0
   }

@@ -1,6 +1,6 @@
 {
  "login": "gso1232",
- "generated": "2026-11-07T11:01Z",
+ "generated": "2026-11-08T11:14Z",
  "total": 10,
  "active_days": 5,
  "per_active_day": 2.0,
@@ -73,41 +73,6 @@
   }
  ],
  "days": [
-  {
-   "date": "2025-11-02",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-11-03",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-11-04",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-11-05",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-11-06",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-11-07",
-   "count": 0,
-   "level": 0
-  },
-  {
-   "date": "2025-11-08",
-   "count": 0,
-   "level": 0
-  },
   {
    "date": "2025-11-09",
    "count": 0,
@@ -1925,6 +1890,11 @@
   },
   {
    "date": "2026-11-07",
+   "count": 0,
+   "level": 0
+  },
+  {
+   "date": "2026-11-08",
    "count": 0,
    "level": 0
   }
